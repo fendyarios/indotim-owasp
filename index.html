@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>	
+	$.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+			let val = this.name == "Gender" ? parseInt(this.value) : this.value;
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(val || '');
+            } else {
+                o[this.name] = val || '';
+            }
+        });
+        return o;
+    };
+	
+	function onSubmit( form ){
+		var inputs = JSON.stringify( $(form).serializeObject());
+		console.log( inputs );
+		
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:8085/Karyawan/CreateKaryawan",
+			data: inputs,
+			contentType: "application/json; charset=utf-8",
+			cache: false,
+			traditional: true,
+			success: function (inputs, status, jqXHR) {
+				alert("Saved");
+			},
+
+			error: function (jqXHR, status) {
+				// error handler
+				console.log(jqXHR);
+				alert('fail' + status.code);
+			}
+		});
+		return false; //don't submit
+	}
+  </script>
+</head>
+<body>
+	<form onsubmit='return onSubmit(this)'>
+		<label for="Nama">Karyawan Id:</label><br/>
+		<input type="text" id="KaryawanId" name="KaryawanId"><br><br>		
+		<label for="Nama">Nama:</label><br/>
+		<input type="text" id="Nama" name="Nama"><br><br>
+		<label for="TglLahir">Tgl Lahir:</label><br/>
+		<input type="text" id="TglLahir" name="TglLahir"><br><br>
+		<label for="Handphone">Handphone:</label><br/>
+		<input type="text" id="Handphone" name="Handphone"><br><br>
+		<label for="Gender">Gender:</label><br/>
+		<select id="Gender" name="Gender">
+		<option value="">[Please select]</option>
+		<option value="1">Male</option>
+		<option value="2">Female</option>
+		</select>
+		<br><br>
+		<input type="submit" value="Submit">	
+	</form>	
+</body>
+</html>
