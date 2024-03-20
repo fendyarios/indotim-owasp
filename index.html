@@ -34,13 +34,11 @@
 			cache: false,
 			traditional: true,
 			success: function (inputs, status, jqXHR) {
-				alert("Saved");
+				alert("Kesimpen.");
 			},
 
 			error: function (jqXHR, status) {
-				// error handler
-				console.log(jqXHR);
-				alert('fail' + status.code);
+				alert('Gagal nyimpen.');
 			}
 		});
 		return false; //don't submit
