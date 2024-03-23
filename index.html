@@ -29,6 +29,7 @@
 		$.ajax({
 			type: "POST",
 			url: "https://indtim-owasp.azurewebsites.net/Karyawan/CreateKaryawan",
+			headers: { 'Access-Control-Allow-Origin': '*' },
 			data: inputs,
 			contentType: "application/json; charset=utf-8",
 			cache: false,
